@@ -1,0 +1,41 @@
+@extends('layouts.app')
+
+@section('content')
+<div style="max-width: 700px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+
+    <h1 style="margin-bottom: 20px;">✍️ เขียนกระทู้ใหม่</h1>
+
+    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data"
+          style="border: 1px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        @csrf
+
+        {{-- หัวข้อ --}}
+        <div style="margin-bottom: 15px;">
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">หัวข้อ:</label>
+            <input type="text" name="title" required
+                   style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        {{-- เนื้อหา --}}
+        <div style="margin-bottom: 15px;">
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">เนื้อหา:</label>
+            <textarea name="content" rows="5" required
+                      style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; resize: vertical;"></textarea>
+        </div>
+
+        {{-- รูปภาพ --}}
+        <div style="margin-bottom: 15px;">
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">รูปภาพ (ไม่บังคับ):</label>
+            <input type="file" name="image"
+                   style="width: 100%; padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        {{-- ปุ่มส่ง --}}
+        <button type="submit"
+                style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+            โพสต์
+        </button>
+    </form>
+
+</div>
+@endsection
