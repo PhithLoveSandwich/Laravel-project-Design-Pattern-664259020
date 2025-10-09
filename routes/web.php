@@ -4,6 +4,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 
@@ -19,8 +25,12 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 Route::resource('posts', PostController::class);
 Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('posts.index');
 });
 
 Route::get('/dashboard', function () {

@@ -110,6 +110,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('home')->with('success', 'ลบกระทู้เรียบร้อย 🗑️');
+        return redirect()->route('posts.index')->with('success', 'ลบกระทู้เรียบร้อย 🗑️');
     }
 }

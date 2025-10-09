@@ -12,15 +12,23 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
+        <link rel="stylesheet" href="{{ asset('css/button.css') }}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            body {
+                background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?fit=crop&w=1920&q=80') no-repeat center center fixed;
+                background-size: cover;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 bg-opacity-70">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
+                <header class="bg-white/90 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -29,8 +37,10 @@
 
             <!-- Page Content -->
             <main>
-                 @yield('content')
+                @yield('content')
             </main>
+
+            @include('layouts.footer')
         </div>
     </body>
 </html>

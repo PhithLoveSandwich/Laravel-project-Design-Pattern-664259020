@@ -1,49 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+<div style="max-width: 900px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
 
     {{-- กระทู้ --}}
-    <div style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 30px;">
-        <h1 style="margin-bottom: 10px;">{{ $post->title }}</h1>
-        <p style="line-height: 1.6; color: #333;">{{ $post->content }}</p>
-        <small style="color: #888;">โดย {{ $post->user->name }} | {{ $post->created_at->diffForHumans() }}</small>
+    <div style="background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 40px;">
+        <h1 style="margin-bottom: 15px; font-size: 28px; color: #333;">{{ $post->title }}</h1>
+        <p style="line-height: 1.7; color: #555; font-size: 16px;">{{ $post->content }}</p>
+        <small style="color: #888;">โดย <strong>{{ $post->user->name }}</strong> | {{ $post->created_at->diffForHumans() }}</small>
 
         {{-- ภาพกระทู้ --}}
         @php
             $postImagePath = storage_path('app/public/' . $post->image);
         @endphp
-        @if($post->image && file_exists($postImagePath))
-            <div style="margin-top: 15px;">
+        <div style="margin-top: 20px;">
+            @if($post->image && file_exists($postImagePath))
                 <img src="{{ asset('storage/' . $post->image) }}"
                      alt="Post Image"
-                     style="max-width: 100%; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
-            </div>
-        @else
-            <div style="margin-top: 15px;">
+                     style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+            @else
                 <img src="{{ asset('images/default-post.jpg') }}"
                      alt="Default Post Image"
-                     style="max-width: 100%; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
-            </div>
-        @endif
+                     style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+            @endif
+        </div>
     </div>
 
-    <hr>
+    <hr style="border-color: #eee; margin-bottom: 40px;">
 
     {{-- ความคิดเห็น --}}
     <div style="margin-top: 30px;">
-        <h2 style="margin-bottom: 15px;">💬 ความคิดเห็น</h2>
+        <h2 style="margin-bottom: 20px; font-size: 24px; color: #333;">💬 ความคิดเห็น</h2>
 
         @foreach($post->comments as $comment)
-            @php
-                $commentImagePath = isset($comment->image) ? storage_path('app/public/' . $comment->image) : null;
-            @endphp
-            <div style="border-left: 4px solid #4CAF50; padding: 10px 15px; margin-bottom: 10px; background: #f9f9f9; border-radius: 5px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <strong>{{ $comment->user->name }}</strong>
-                    <span style="color: #888; font-size: 0.9em;">{{ $comment->created_at->diffForHumans() }}</span>
+            <div style="background: #f9f9f9; border-left: 4px solid #4CAF50; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <strong style="color: #2c3e50;">{{ $comment->user->name }}</strong>
+                    <span style="color: #aaa; font-size: 0.9em;">{{ $comment->created_at->diffForHumans() }}</span>
                 </div>
-                <p style="margin: 5px 0 0 0;">{{ $comment->content }}</p>
+                <p style="margin: 5px 0; color: #555; font-size: 15px;">{{ $comment->content }}</p>
 
                 {{-- ลบความคิดเห็น ถ้าเป็นเจ้าของ --}}
                 @if($comment->user_id === auth()->id())
@@ -51,7 +46,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                                style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                                style="background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 14px;">
                             🗑️ ลบ
                         </button>
                     </form>
@@ -60,12 +55,13 @@
         @endforeach
 
         {{-- ฟอร์มแสดงความคิดเห็น --}}
-        <form action="{{ route('comments.store', $post) }}" method="POST" style="margin-top: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <form action="{{ route('comments.store', $post) }}" method="POST" style="margin-top: 30px; border: 1px solid #ddd; padding: 20px; border-radius: 10px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
             @csrf
-            <textarea name="content" rows="3" placeholder="เขียนความคิดเห็นของคุณ..." required
-                style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; resize: vertical;"></textarea>
+            <h3 style="margin-bottom: 10px; font-size: 20px; color: #333;">✍️ แสดงความคิดเห็นของคุณ</h3>
+            <textarea name="content" rows="4" placeholder="เขียนความคิดเห็นของคุณ..." required
+                style="width: 100%; padding: 12px; border-radius: 5px; border: 1px solid #ccc; resize: vertical; font-size: 15px;"></textarea>
             <button type="submit"
-                    style="margin-top: 10px; background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                    style="margin-top: 15px; background: #4CAF50; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;">
                 ส่งความคิดเห็น
             </button>
         </form>
